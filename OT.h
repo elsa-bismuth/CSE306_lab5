@@ -43,25 +43,25 @@ public:
         double s1 = 0;
         double s2 = 0;
         double s3 = 0;
-        double estimated_volume_fluid = 0;
+        // double estimated_volume_fluid = 0;
 
         // p102-103
         for (int i = 0; i < n ; i++) {
             double cell_area = solution.diagram[i].area();
-            //g[i]= -(this->lambdas[i] - cell_area);
-            g[i] = static_cast<lbfgsfloatval_t>(-(this->lambdas[i] - cell_area));
+            g[i]= -(this->lambdas[i] - cell_area);
+            // g[i] = static_cast<lbfgsfloatval_t>(-(this->lambdas[i] - cell_area));
             s3 += this->lambdas[i]*x[i];
             s2 -= (x[i]*cell_area);
             s1 += solution.diagram[i].integrate_squared_distance(solution.points[i]);
-            estimated_volume_fluid += cell_area;
+            // estimated_volume_fluid += cell_area;
         }
         
         fx  = s1 + s2 + s3;
 
         // Lab 8
-        double estimated_volume_air = 1. - estimated_volume_fluid;
-        fx += x[n-1] * (VOLUME_AIR - estimated_volume_air);
-        g[n-1] = -(VOLUME_AIR - estimated_volume_air);
+        // double estimated_volume_air = 1. - estimated_volume_fluid;
+        // fx += x[n-1] * (VOLUME_AIR - estimated_volume_air);
+        // g[n-1] = -(VOLUME_AIR - estimated_volume_air);
 
         return -fx;
 
@@ -115,8 +115,8 @@ public:
     // solves the optimal transport problem
     void solve(){
         solution.points = this->pts;
-        solution.weights.resize(this->lambdas.size()); 
-        std::fill(solution.weights.begin(), solution.weights.end(), this->lambdas);
+        solution.weights.resize(this->pts.size()); 
+        std::fill(solution.weights.begin(), solution.weights.end(), 1.);
 
         double fx = 0;
 
