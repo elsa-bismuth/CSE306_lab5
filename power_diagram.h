@@ -31,8 +31,8 @@ public:
 
     PowerDiagram() {};
     PowerDiagram(std::vector<Vector>& pts, std::vector<double> &weights) {
-        this->points = pts;
-        this->weights = weights;
+        points = pts;
+        weights = weights;
 
         // Lab 8
         const int N_disk = 50;
@@ -52,7 +52,7 @@ public:
         Polygon result;
 
         Vector M = (P0 + Pi) * 0.5; 
-        Vector Mprime = M + ((this->weights[index_0]-this->weights[index_i])/(2.*(P0-Pi).norm2()))*(Pi-P0);
+        Vector Mprime = M + ((weights[index_0]-weights[index_i])/(2.*(P0-Pi).norm2()))*(Pi-P0);
 
         for (int i=0; i < poly.vertices.size(); i++){
             const Vector &A = (i==0)? poly.vertices[poly.vertices.size() - 1]:poly.vertices[i-1];
@@ -61,14 +61,14 @@ public:
             Vector P = A + t*(B-A);
 
             // updated formula with p101
-            if ((B-P0).norm2() - this->weights[index_0] < (B-Pi).norm2() - this->weights[index_i]){ // B is inside
-                if ((A-P0).norm2() - this->weights[index_0] > (A-Pi).norm2() - this->weights[index_i] ){ // A is outside
+            if ((B-P0).norm2() - weights[index_0] < (B-Pi).norm2() - weights[index_i]){ // B is inside
+                if ((A-P0).norm2() - weights[index_0] > (A-Pi).norm2() - weights[index_i] ){ // A is outside
                     result.vertices.push_back(P);
                 }
                 result.vertices.push_back(B);
             }
             else {
-                if ((A-P0).norm2() - this->weights[index_0]< (A-Pi).norm2() - this->weights[index_i]){ // A is inside
+                if ((A-P0).norm2() - weights[index_0]< (A-Pi).norm2() - weights[index_i]){ // A is inside
                     result.vertices.push_back(P);
                 }
             }
@@ -135,7 +135,7 @@ public:
         }
 
         // Lab 8
-        // result = intersect_with_disk(result, points[idx], sqrt(weights[idx]) - weights.back());
+        // result = intersect_with_disk(result, points[idx], sqrt(weights[idx] - weights.back()));
 
         return result;
 

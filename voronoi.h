@@ -23,11 +23,11 @@ void save_svg(const std::vector<Polygon> &polygons, std::string filename, std::s
 class VoronoiDiagram{
 public: 
     VoronoiDiagram(const std::vector<Vector>& pts){
-        points = pts; 
+        this->points = pts; 
     };
 
     // Sutherland-Hodgman algorithm
-    // P88 of the poly
+    // P88 of the polylab6
     Polygon clip_polygon_by_bissector(const Polygon& poly, const Vector& P0, const Vector& Pi){
 
         Polygon result;
